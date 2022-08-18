@@ -1,0 +1,221 @@
+let inner = document.querySelectorAll('.inner');
+let num = document.querySelectorAll('.num');   // all the numbers in the calculator
+let symbol = document.querySelectorAll('.symbol ');  // all the operators
+let type = document.querySelector('.type');     // everytime we type something in the calculator, it will pop up here
+let answer = document.querySelector('.answer');   // everytime we click on the equal sign, the answer will pop up here
+let plus = document.querySelector('.plus');
+let minus = document.querySelector('.minus');
+let times = document.querySelector('.times');
+let divi = document.querySelector('.divide');
+let del = document.querySelector('.delete');
+let equal = document.querySelector('.equal');
+let clear = document.querySelector('.clear');
+let decimal = document.querySelector('.decimal');
+let str = '';  // everytime a number is pressed, it will be saved inside this string 
+let sym = '';  // Everytime an operator is pressed, it will be saved inside this variable
+let obj = {
+    total: 0,   // everytime an evaluation is made, the total of that evaluation will be saved here
+    a: 0,   
+    b: 0,
+    strBackup: ''  // this is used for when the delete button is pressed and we want to go one step back, we use the value here which is a backup of the previous number entered
+}
+
+
+// Still busy with it
+// This function is for keyboard support
+window.addEventListener('keypress', e => {
+    let key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+});
+
+
+
+// This event listener is for when a number on the calculator is clicked on. It is going to save that number as a string and then display it on 
+// the calculator
+num.forEach((num) => {
+    num.addEventListener('click', (e) => {
+        str += e.target.textContent;  // everytime a number is pressed it will be save in this variable
+        // console.log(str);
+        display(e);   // that number will be displayed 
+        // console.log(type.textContent);
+    });
+});
+
+
+// This event listener is for when the '.' is pressed. It allows the user to use decimals when calculating. The user can only press it one at a 
+// time, meaning we can't have two dots lined up like this e.g  '..'
+decimal.addEventListener('click', e => {
+    str += e.target.textContent;   // when the dot is pressed it will also be saved inside this variable
+    display(e);    // the dot will be displayed
+}, {once: true});  // This is how we make sure the dot is only pressed once at a time
+
+
+
+// This event listener is for when one of the operators is clicked. This event listener saves the previous number that was entered when the 
+// user clicks the operator for the first time and it also evaluates the two numbers entered if/when the user uses one of the operators the second 
+// time
+// The first time one of the operators is clicked, meaning the user only enetered one number so far, this event listener will save that number 
+// inside obj.a
+// When the user clicks one of the operators again, meaning two numbers were entered so far, e.g  1 + 2 + , the first two numbers will be 
+// evaluated and then obj.a will be the evaluation of those two numbers and the second number entered will be obj.b
+symbol.forEach((symbol) => {
+    symbol.addEventListener('click', (e) => {
+    // console.log(obj.aBackup);
+    display(e);
+    obj.totalBackup = obj.total;  // a backup of the total is made everytime that value inside obj.total changes
+    obj.aBackup = obj.a;    
+    // console.log(obj.aBackup);
+    obj.bBackup = obj.b;
+
+    decimal.addEventListener('click', e => {
+        str += e.target.textContent;
+        display(e);
+    }, {once: true});
+
+    if(type.textContent == '-') {
+
+    } else if(/^[x/]/.test(type.textContent)) {
+        return
+    }
+    else if(obj.a == 0) {
+        obj.a = +str; // 0
+        // console.log(obj.a);
+        sym = e.target.textContent;
+        obj.strBackup = str;
+        str = '';
+    } else {
+        obj.b = +str;
+        obj.total = operate(sym, obj.a, obj.b);
+        obj.a = obj.total
+        sym = e.target.textContent;
+        str = '';
+    }
+
+   });
+});
+
+
+
+// This event listener is for when the equal sign is clicked. All it will do is evaluate obj.a(the value here can be the evaluation of many 
+// different numbers) and obj.b and display the result on the calculator. It also rounds off any decimal numbers
+equal.addEventListener('click', e => {
+    obj.b = +str;
+    obj.total = operate(sym, obj.a, obj.b);
+    if(/\/0/.test(type.textContent)) {
+        let s = document.createElement('p');
+        s.textContent = "Are you nuts?!! You can't divide by 0 you dummy";
+        s.style.fontSize = '20px';
+        s.style.color = 'rgb(245, 30, 30)';
+        answer.append(s);
+    } else if(/^[x/]/.test(type.textContent)) {
+        answer.textContent = 'huh??';
+    }
+        else {
+        answer.textContent = Number.isInteger(obj.total) ? operate(sym, obj.a, obj.b) : operate(sym, obj.a, obj.b).toFixed(2);
+    }
+});
+
+
+
+
+// This function will clear all the data entered and reset everything and the calculator will start from scratch
+clear.addEventListener('click', () => {
+    obj = {
+        total: 0,
+        a: 0,
+        b: 0
+    };
+    answer.textContent = '';
+    type.textContent = '';
+    sym = '';
+    str = '';
+});
+
+
+
+function delet(str) {
+    return str.replace(str[str.length - 1], '')
+}
+
+
+
+
+// Still busy with it
+// This function  will delete the previous number or operator entered and the calculator will start from the time before the number or operator 
+// was entered. This has a bug though
+del.addEventListener('click', e => {
+    let st = type.textContent;
+    if(/[-+x/]$/.test(st)) {
+        str = obj.strBackup;
+        type.textContent = delet(st);
+        obj.total = obj.totalBackup;
+        obj.a = obj.aBackup;
+        // console.log(obj.a);
+        obj.b = obj.bBackup;
+    } else {
+        str = delet(str);
+        // console.log(`${str}: this is the string after deleting number not symbol`);
+        type.textContent = delet(st);
+    }
+})
+
+
+
+
+// This is the function that will e called every time we need to evaluate a pair of numbers
+// This function will be run every time the user clicks on the equal sign or when there are two or more operators in the equation
+// Everytime the operators are clicked 2 times or more, this function will be reun
+// e.g   1 + 1 ,    the function in this case will not be run
+// e.g   1 + 1 = ,  the function in this case will be run when we click the equal sign
+// e.g   6 + 4 + ,  the function in this case will be run and will evaluate the number 6 and the number 4. Our result will be 10 
+// e.g   6 + 4 - 5 = , the function in this case will be run twice. When the user clicks on the minus sign, and the user clicks the equal sign
+// In the above example, the operate function will evaluate 6 and 4 first and the result(10) will be saved in obj.a and the opearate function 
+// will run again when the = is clicked. obj.b will now be 5
+function operate(operator, a, b) {
+    switch (operator) {
+        case '+':
+            return add(a, b);
+
+        case '-':
+            return subtract(a, b);
+            
+        case 'x':
+            return multiply(a, b);
+
+        case '/':
+            return divide(a, b);
+    
+        default:
+            break;
+    }
+}
+
+
+
+// This is the function that displays what needs to be displayed on the calculator
+function display(e) {
+    type.textContent += e.target.textContent;
+}
+
+
+// Function to add
+function add(a, b) {
+    return a + b;
+}
+
+
+// Function to subtract
+function subtract(a, b) {
+    return a - b;
+}
+
+// Function to multiply
+function multiply(a, b) {
+    return a * b;
+}
+
+// Function to divide
+function divide(a, b) {
+    return a / b;
+}
+
+

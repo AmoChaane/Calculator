@@ -4,10 +4,44 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Calculator</title>
+    <link rel="stylesheet" href="calculator.css">
+    <!-- <script src="calculator.js" defer></script> -->
+    <script src="calculator2.js" defer></script>
 </head>
 <body>
-    <h1>Calculaor</h1>
-    <a href="calculator.html"></a>
+    <div class="container">
+        <div class="display">
+            <div class="type"></div>
+            <div class="answer"></div>
+        </div>
+        <div class="custom">
+            <div class="delete">x</div>
+        </div>
+        <div class="options">
+            <div class="btn"><div class="clear" style="margin-top: 2px;" data-key="99">C</div></div>
+            <div class="btn"><div class="inner brackets" style="margin-top: 2px;">( )</div></div>
+            <div class="btn"><div class="inner percentage" style="margin-top: 2px;" data-key="37">%</div></div>
+            <div class="btn"><div class="inner symbol divide" style="margin-top: 2px;" data-key="47">/</div></div>
+            <div class="btn"><div class="inner num" data-key="55">7</div></div>
+            <div class="btn"><div class="inner num" data-key="56">8</div></div>
+            <div class="btn"><div class="inner num" data-key="57">9</div></div>
+            <div class="btn"><div class="inner symbol times" data-key="42">x</div></div>
+            <div class="btn"><div class="inner num" data-key="52">4</div></div>
+            <div class="btn"><div class="inner num" data-key="53">5</div></div>
+            <div class="btn"><div class="inner num" data-key="54">6</div></div>
+            <div class="btn"><div class="inner symbol minus" data-key="45">-</div></div>
+            <div class="btn"><div class="inner num" data-key="49">1</div></div>
+            <div class="btn"><div class="inner num" data-key="50">2</div></div>
+            <div class="btn"><div class="inner num" data-key="51">3</div></div>
+            <div class="btn"><div class="inner symbol plus" data-key="43">+</div></div>
+            <div class="btn"><div class="inner">+/-</div></div>
+            <div class="btn"><div class="inner num" data-key="48">0</div></div>
+            <div class="btn"><div class="inner decimal" data-key="46">.</div></div>
+            <div class="btn"><div class="equal">=</div></div>
+        </div>
+    </div>
+
+   
 </body>
 </html>
