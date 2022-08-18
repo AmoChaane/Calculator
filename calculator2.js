@@ -72,7 +72,7 @@ symbol.forEach((symbol) => {
     }, {once: true});
 
     if(type.textContent == '-') {
-
+        str += '-'
     } else if(/^[x/]/.test(type.textContent)) {
         return
     }
