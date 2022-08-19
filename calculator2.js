@@ -16,13 +16,8 @@ let sym = '';  // Everytime an operator is pressed, it will be saved inside this
 let obj = {
     total: 0,   // everytime an evaluation is made, the total of that evaluation will be saved here
     a: 0,   
-    b: 0,
-    totalBackup: 0,
-    aBackup: 0,
-    bBackup: 0,
-    strBackup: ''  // this is used for when the delete button is pressed and we want to go one step back, we use the value here which is a backup of the previous number entered
+    b: 0
 }
-// let str2 = '';
 
 // Still busy with it
 // This function is for keyboard support
@@ -36,12 +31,8 @@ window.addEventListener('keypress', e => {
 // the calculator
 num.forEach((num) => {
     num.addEventListener('click', (e) => {
-        
-        // str2 += e.target.textContent;
         str += e.target.textContent;  // everytime a number is pressed it will be save in this variable
-        // console.log(str);
         display(e);   // that number will be displayed 
-        // console.log(type.textContent);
     });
 });
 
@@ -64,14 +55,7 @@ decimal.addEventListener('click', e => {
 // evaluated and then obj.a will be the evaluation of those two numbers and the second number entered will be obj.b
 symbol.forEach((symbol) => {
     symbol.addEventListener('click', (e) => {
-    // console.log(obj.aBackup);
     answer.textContent = '';
-    // display(e);
-    // str2 += e.target.textContent
-    obj.totalBackup = obj.total;  // a backup of the total is made everytime that value inside obj.total changes
-    obj.aBackup = obj.a;    
-    // console.log(obj.aBackup);
-    obj.bBackup = obj.b;
 
     decimal.addEventListener('click', e => {
         str += e.target.textContent;
@@ -87,7 +71,6 @@ symbol.forEach((symbol) => {
         obj.a = +str; // 0
         sym = e.target.textContent;
         type.textContent = `${obj.a}${sym}`
-        obj.strBackup = str;
         str = '';
     } else {
         obj.b = +str;
@@ -96,7 +79,6 @@ symbol.forEach((symbol) => {
         sym = e.target.textContent;
         type.textContent = `${obj.a}${sym}`
         str = '';
-        obj.b = 0;
     }
 
    });
@@ -143,7 +125,6 @@ clear.addEventListener('click', () => {
 
 
 function delet(str) {
-    // return str.replace(str[str.length - 1], '')
     let s = str.split('');
     s[s.length - 1] = '';
     s = s.join('');
@@ -160,7 +141,6 @@ del.addEventListener('click', e => {
     let st = answer.textContent;
     str = delet(str);
     answer.textContent = delet(st);
-
 })
 
 
@@ -202,23 +182,18 @@ function display(e) {
 }
 
 
-// Function to add
 function add(a, b) {
     return a + b;
 }
 
-
-// Function to subtract
 function subtract(a, b) {
     return a - b;
 }
 
-// Function to multiply
 function multiply(a, b) {
     return a * b;
 }
 
-// Function to divide
 function divide(a, b) {
     return a / b;
 }
