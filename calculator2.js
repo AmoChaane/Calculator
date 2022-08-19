@@ -158,18 +158,9 @@ function delet(str) {
 // was entered. 
 del.addEventListener('click', e => {
     let st = answer.textContent;
-    if(/[-+x/]$/.test(st)) {
-        str = obj.strBackup;
-        answer.textContent = delet(st);
-        obj.total = obj.totalBackup;
-        obj.a = obj.aBackup;
-        // console.log(obj.a);
-        obj.b = obj.bBackup;
-    } else {
-        str = delet(str);
-        // console.log(`${str}: this is the string after deleting number not symbol`);
-        answer.textContent = delet(st);
-    }
+    str = delet(str);
+    answer.textContent = delet(st);
+
 })
 
 
