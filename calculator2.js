@@ -1,16 +1,17 @@
-let inner = document.querySelectorAll('.inner');
-let num = document.querySelectorAll('.num');   // all the numbers in the calculator
-let symbol = document.querySelectorAll('.symbol ');  // all the operators
-let type = document.querySelector('.type');     // everytime we type something in the calculator, it will pop up here
-let answer = document.querySelector('.answer');   // everytime we click on the equal sign, the answer will pop up here
-let plus = document.querySelector('.plus');
-let minus = document.querySelector('.minus');
-let times = document.querySelector('.times');
-let divi = document.querySelector('.divide');
-let del = document.querySelector('.delete');
-let equal = document.querySelector('.equal');
-let clear = document.querySelector('.clear');
-let decimal = document.querySelector('.decimal');
+const inner = document.querySelectorAll('.inner');
+const num = document.querySelectorAll('.num');   // all the numbers in the calculator
+const symbol = document.querySelectorAll('.symbol ');  // all the operators
+const type = document.querySelector('.type');     // everytime we type something in the calculator, it will pop up here
+const answer = document.querySelector('.answer');   // everytime we click on the equal sign, the answer will pop up here
+const plus = document.querySelector('.plus');
+const minus = document.querySelector('.minus');
+const times = document.querySelector('.times');
+const divi = document.querySelector('.divide');
+const del = document.querySelector('.delete');
+const equal = document.querySelector('.equal');
+const clear = document.querySelector('.clear');
+const decimal = document.querySelector('.decimal');
+let EQUAL_PRESSED = false;
 let str = '';  // everytime a number is pressed, it will be saved inside this string 
 let sym = '';  // Everytime an operator is pressed, it will be saved inside this variable
 let obj = {
@@ -31,8 +32,15 @@ window.addEventListener('keypress', e => {
 // the calculator
 num.forEach((num) => {
     num.addEventListener('click', (e) => {
-        str += e.target.textContent;  // everytime a number is pressed it will be save in this variable
-        display(e);   // that number will be displayed 
+        if(EQUAL_PRESSED) {
+            clearAll();
+            EQUAL_PRESSED = false;
+            str += e.target.textContent;
+            display(e);
+        } else {
+            str += e.target.textContent;  // everytime a number is pressed it will be save in this variable
+            display(e);   // that number will be displayed 
+        }
     });
 });
 
@@ -55,31 +63,36 @@ decimal.addEventListener('click', e => {
 // evaluated and then obj.a will be the evaluation of those two numbers and the second number entered will be obj.b
 symbol.forEach((symbol) => {
     symbol.addEventListener('click', (e) => {
-    answer.textContent = '';
+        EQUAL_PRESSED = false;
+        answer.textContent = '';
+        console.log(str);
 
-    decimal.addEventListener('click', e => {
-        str += e.target.textContent;
-        display(e);
-    }, {once: true});
+        decimal.addEventListener('click', e => {
+            str += e.target.textContent;
+            display(e);
+        }, {once: true});
 
-    if(type.textContent == '-') {
-        str += '-'
-    } else if(/^[x/]/.test(type.textContent)) {
-        return
-    }
-    else if(obj.a == 0) {
-        obj.a = +str; // 0
-        sym = e.target.textContent;
-        type.textContent = `${obj.a}${sym}`
-        str = '';
-    } else {
-        obj.b = +str;
-        obj.total = operate(sym, obj.a, obj.b);
-        obj.a = obj.total
-        sym = e.target.textContent;
-        type.textContent = `${obj.a}${sym}`
-        str = '';
-    }
+        if(str == '') {
+            str += '-';
+            answer.textContent = `-`
+        } else if(/^[x/]/.test(type.textContent)) {
+            return
+        }
+        else if(obj.a == 0) {
+            console.log(str);
+            obj.a = +str; // 0
+            console.log(obj.a);
+            sym = e.target.textContent;
+            type.textContent = `${obj.a}${sym}`
+            str = '';
+        } else {
+            obj.b = +str;
+            obj.total = operate(sym, obj.a, obj.b);
+            obj.a = obj.total
+            sym = e.target.textContent;
+            type.textContent = `${obj.a}${sym}`
+            str = '';
+        }
 
    });
 });
@@ -89,6 +102,7 @@ symbol.forEach((symbol) => {
 // This event listener is for when the equal sign is clicked. All it will do is evaluate obj.a(the value here can be the evaluation of many 
 // different numbers) and obj.b and display the result on the calculator. It also rounds off any decimal numbers
 equal.addEventListener('click', e => {
+    EQUAL_PRESSED = true;
     obj.b = +str;
     obj.total = operate(sym, obj.a, obj.b);
     type.textContent = `${obj.a} ${sym} ${obj.b} =`
@@ -110,7 +124,9 @@ equal.addEventListener('click', e => {
 
 
 // This function will clear all the data entered and reset everything and the calculator will start from scratch
-clear.addEventListener('click', () => {
+clear.addEventListener('click', clearAll);
+
+function clearAll() {
     obj = {
         total: 0,
         a: 0,
@@ -120,9 +136,7 @@ clear.addEventListener('click', () => {
     type.textContent = '';
     sym = '';
     str = '';
-});
-
-
+}
 
 function delet(str) {
     let s = str.split('');
