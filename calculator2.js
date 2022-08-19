@@ -17,9 +17,12 @@ let obj = {
     total: 0,   // everytime an evaluation is made, the total of that evaluation will be saved here
     a: 0,   
     b: 0,
+    totalBackup: 0,
+    aBackup: 0,
+    bBackup: 0,
     strBackup: ''  // this is used for when the delete button is pressed and we want to go one step back, we use the value here which is a backup of the previous number entered
 }
-
+// let str2 = '';
 
 // Still busy with it
 // This function is for keyboard support
@@ -33,6 +36,8 @@ window.addEventListener('keypress', e => {
 // the calculator
 num.forEach((num) => {
     num.addEventListener('click', (e) => {
+        
+        // str2 += e.target.textContent;
         str += e.target.textContent;  // everytime a number is pressed it will be save in this variable
         // console.log(str);
         display(e);   // that number will be displayed 
@@ -60,7 +65,9 @@ decimal.addEventListener('click', e => {
 symbol.forEach((symbol) => {
     symbol.addEventListener('click', (e) => {
     // console.log(obj.aBackup);
-    display(e);
+    answer.textContent = '';
+    // display(e);
+    // str2 += e.target.textContent
     obj.totalBackup = obj.total;  // a backup of the total is made everytime that value inside obj.total changes
     obj.aBackup = obj.a;    
     // console.log(obj.aBackup);
@@ -78,8 +85,8 @@ symbol.forEach((symbol) => {
     }
     else if(obj.a == 0) {
         obj.a = +str; // 0
-        // console.log(obj.a);
         sym = e.target.textContent;
+        type.textContent = `${obj.a}${sym}`
         obj.strBackup = str;
         str = '';
     } else {
@@ -87,7 +94,9 @@ symbol.forEach((symbol) => {
         obj.total = operate(sym, obj.a, obj.b);
         obj.a = obj.total
         sym = e.target.textContent;
+        type.textContent = `${obj.a}${sym}`
         str = '';
+        obj.b = 0;
     }
 
    });
@@ -100,6 +109,7 @@ symbol.forEach((symbol) => {
 equal.addEventListener('click', e => {
     obj.b = +str;
     obj.total = operate(sym, obj.a, obj.b);
+    type.textContent = `${obj.a} ${sym} ${obj.b} =`
     if(/\/0/.test(type.textContent)) {
         let s = document.createElement('p');
         s.textContent = "Are you nuts?!! You can't divide by 0 you dummy";
@@ -133,7 +143,11 @@ clear.addEventListener('click', () => {
 
 
 function delet(str) {
-    return str.replace(str[str.length - 1], '')
+    // return str.replace(str[str.length - 1], '')
+    let s = str.split('');
+    s[s.length - 1] = '';
+    s = s.join('');
+    return s
 }
 
 
@@ -141,12 +155,12 @@ function delet(str) {
 
 // Still busy with it
 // This function  will delete the previous number or operator entered and the calculator will start from the time before the number or operator 
-// was entered. This has a bug though
+// was entered. 
 del.addEventListener('click', e => {
-    let st = type.textContent;
+    let st = answer.textContent;
     if(/[-+x/]$/.test(st)) {
         str = obj.strBackup;
-        type.textContent = delet(st);
+        answer.textContent = delet(st);
         obj.total = obj.totalBackup;
         obj.a = obj.aBackup;
         // console.log(obj.a);
@@ -154,7 +168,7 @@ del.addEventListener('click', e => {
     } else {
         str = delet(str);
         // console.log(`${str}: this is the string after deleting number not symbol`);
-        type.textContent = delet(st);
+        answer.textContent = delet(st);
     }
 })
 
@@ -193,7 +207,7 @@ function operate(operator, a, b) {
 
 // This is the function that displays what needs to be displayed on the calculator
 function display(e) {
-    type.textContent += e.target.textContent;
+    answer.textContent += e.target.textContent;
 }
 
 
