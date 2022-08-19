@@ -64,20 +64,24 @@ decimal.addEventListener('click', e => {
 symbol.forEach((symbol) => {
     symbol.addEventListener('click', (e) => {
         EQUAL_PRESSED = false;
-        answer.textContent = '';
         console.log(str);
+        if(str == '-') return
+        else answer.textContent = '';
 
         decimal.addEventListener('click', e => {
             str += e.target.textContent;
             display(e);
         }, {once: true});
 
-        if(str == '') {
+        if(e.target.textContent == '-' && str == '') {
             str += '-';
             answer.textContent = `-`
-        } else if(/^[x/]/.test(type.textContent)) {
-            return
-        }
+        } 
+        // else if(e.target.textContent == '-' ) return 
+        else if(e.target.textContent == 'x' && str == '') return 
+        else if(e.target.textContent == '/' && str == '') return 
+        else if(e.target.textContent == '+' && str == '') return 
+        else if(/^[x/]/.test(type.textContent)) return 
         else if(obj.a == 0) {
             console.log(str);
             obj.a = +str; // 0
@@ -102,6 +106,7 @@ symbol.forEach((symbol) => {
 // This event listener is for when the equal sign is clicked. All it will do is evaluate obj.a(the value here can be the evaluation of many 
 // different numbers) and obj.b and display the result on the calculator. It also rounds off any decimal numbers
 equal.addEventListener('click', e => {
+    if(obj.a == 0 && obj.b == 0) return
     EQUAL_PRESSED = true;
     obj.b = +str;
     obj.total = operate(sym, obj.a, obj.b);
