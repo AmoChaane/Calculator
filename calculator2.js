@@ -24,6 +24,9 @@ let obj = {
 // This function is for keyboard support
 window.addEventListener('keypress', e => {
     let key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    console.log(e);
+    if(e.code == 'Enter') document.querySelector(`.equal`).click();
+    key.click();
 });
 
 
