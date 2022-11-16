@@ -26,6 +26,7 @@ window.addEventListener('keypress', e => {
     let key = document.querySelector(`div[data-key="${e.keyCode}"]`);
     console.log(e);
     if(e.code == 'Enter') document.querySelector(`.equal`).click();
+    else if(e.code == 'Backspace') document.querySelector(`.delete`).click();
     key.click();
 });
 
