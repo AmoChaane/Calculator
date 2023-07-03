@@ -2,7 +2,7 @@ const inner = document.querySelectorAll('.inner');
 const num = document.querySelectorAll('.num');   // all the numbers in the calculator
 const symbol = document.querySelectorAll('.symbol ');  // all the operators
 const type = document.querySelector('.type');     // everytime we type something in the calculator, it will pop up here
-const answer = document.querySelector('.answer');   // everytime we click on the equal sign, the answer will pop up here
+const answer = document.querySelector('.answer div');   // everytime we click on the equal sign, the answer will pop up here
 const plus = document.querySelector('.plus');
 const minus = document.querySelector('.minus');
 const times = document.querySelector('.times');
@@ -11,6 +11,8 @@ const del = document.querySelector('.delete');
 const equal = document.querySelector('.equal');
 const clear = document.querySelector('.clear');
 const decimal = document.querySelector('.decimal');
+const lightMode = document.querySelector('.sun');
+const darkMode = document.querySelector('.moon');
 let EQUAL_PRESSED = false;
 let str = '';  // everytime a number is pressed, it will be saved inside this string 
 let sym = '';  // Everytime an operator is pressed, it will be saved inside this variable
@@ -20,14 +22,21 @@ let obj = {
     b: 0
 }
 
+answer.addEventListener("scroll", (event) => {
+    console.log(event);
+    answer.scrollLeft = answer.scrollWidth;
+})
+
+
+
 // Still busy with it
 // This function is for keyboard support
 window.addEventListener('keypress', e => {
     let key = document.querySelector(`div[data-key="${e.keyCode}"]`);
-    console.log(e);
+    // console.log(e);
     if(e.code == 'Enter') document.querySelector(`.equal`).click();
     else if(e.code == 'Backspace') document.querySelector(`.delete`).click();
-    key.click();
+    if(key) key.click();
 });
 
 
@@ -37,11 +46,16 @@ window.addEventListener('keypress', e => {
 num.forEach((num) => {
     num.addEventListener('click', (e) => {
         if(EQUAL_PRESSED) {
+            // console.log(e);
             clearAll();
             EQUAL_PRESSED = false;
             str += e.target.textContent;
             display(e);
         } else {
+            // console.log(e);
+            if(answer.scrollWidth > answer.clientWidth) { // this doesn't work properly yet
+                answer.scrollLeft = answer.scrollWidth;
+            }
             str += e.target.textContent;  // everytime a number is pressed it will be save in this variable
             display(e);   // that number will be displayed 
         }
@@ -91,14 +105,14 @@ symbol.forEach((symbol) => {
             obj.a = +str; // 0
             console.log(obj.a);
             sym = e.target.textContent;
-            type.textContent = `${obj.a}${sym}`
+            type.innerHTML = `${obj.a} ${`<span style="color: #EF6766">&nbsp;${sym}&nbsp;</span>`}`
             str = '';
         } else {
             obj.b = +str;
             obj.total = operate(sym, obj.a, obj.b);
             obj.a = obj.total
             sym = e.target.textContent;
-            type.textContent = `${obj.a}${sym}`
+            type.innerHTML = `${obj.a} ${`<span style="color: #EF6766">&nbsp;${sym}&nbsp;</span>`}`
             str = '';
         }
 
@@ -114,7 +128,7 @@ equal.addEventListener('click', e => {
     EQUAL_PRESSED = true;
     obj.b = +str;
     obj.total = operate(sym, obj.a, obj.b);
-    type.textContent = `${obj.a} ${sym} ${obj.b} =`
+    type.innerHTML = `${obj.a} <span style="color: #EF6766">&nbsp;${sym}&nbsp;</span> ${obj.b} =`
     if(/\/0/.test(type.textContent)) {
         let s = document.createElement('p');
         s.textContent = "Are you nuts?!! You can't divide by 0 you dummy";
@@ -165,6 +179,11 @@ del.addEventListener('click', e => {
     str = delet(str);
     answer.textContent = delet(st);
 })
+
+
+lightMode.addEventListener("click", () => {
+    loght
+}) 
 
 
 

@@ -7,41 +7,51 @@
     <title>Calculator</title>
     <link rel="stylesheet" href="calculator.css">
     <!-- <script src="calculator.js" defer></script> -->
-    <script src="calculator2.js" defer></script>
+    <script src="calculator.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://kit.fontawesome.com/f6252331b6.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Square+Peg&display=swap" rel="stylesheet">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+
 </head>
 <body>
-    <div class="container">
-        <div class="display">
-            <div class="type"></div>
-            <div class="answer"></div>
-        </div>
-        <div class="custom">
-            <div class="delete">x</div>
+    <div class="container">  <!-- The Calculator -->
+        <div class="screen">
+            <div class="theme">
+                <div>
+                    <i class="fa-solid fa-sun sun" style="color: #FDFCFD"></i>
+                    <i class="fa-solid fa-moon moon" style="color: #7D7E82"></i>
+                </div>
+            </div>
+            <div class="display">
+                <div class="type"></div>
+                <div class="answer">
+                    <div class=""></div>
+                </div>
+            </div>
         </div>
         <div class="options">
-            <div class="btn"><div class="clear" style="margin-top: 2px;" data-key="99">C</div></div>
-            <div class="btn"><div class="inner brackets" style="margin-top: 2px;">( )</div></div>
-            <div class="btn"><div class="inner percentage" style="margin-top: 2px;" data-key="37">%</div></div>
-            <div class="btn"><div class="inner symbol divide" style="margin-top: 2px;" data-key="47">/</div></div>
-            <div class="btn"><div class="inner num" data-key="55">7</div></div>
-            <div class="btn"><div class="inner num" data-key="56">8</div></div>
-            <div class="btn"><div class="inner num" data-key="57">9</div></div>
-            <div class="btn"><div class="inner symbol times" data-key="42">x</div></div>
-            <div class="btn"><div class="inner num" data-key="52">4</div></div>
-            <div class="btn"><div class="inner num" data-key="53">5</div></div>
-            <div class="btn"><div class="inner num" data-key="54">6</div></div>
-            <div class="btn"><div class="inner symbol minus" data-key="45">-</div></div>
-            <div class="btn"><div class="inner num" data-key="49">1</div></div>
-            <div class="btn"><div class="inner num" data-key="50">2</div></div>
-            <div class="btn"><div class="inner num" data-key="51">3</div></div>
-            <div class="btn"><div class="inner symbol plus" data-key="43">+</div></div>
-            <div class="btn"><div class="inner">+/-</div></div>
-            <div class="btn"><div class="inner num" data-key="48">0</div></div>
-            <div class="btn"><div class="inner decimal" data-key="46">.</div></div>
-            <div class="btn"><div class="equal">=</div></div>
+            <div class="btn clear" data-key="99">C</div>
+            <!-- <div class="btn brackets">( )</div> -->
+            <div class="btn delete" data-key="37"><i class="fa-solid fa-delete-left"></i></div>
+            <div class="btn symbol divide" data-key="47">/</div>
+            <div class="btn num" data-key="55">7</div>
+            <div class="btn num" data-key="56">8</div>
+            <div class="btn num" data-key="57">9</div>
+            <div class="btn symbol times" data-key="42">x</div>
+            <div class="btn num" data-key="52">4</div>
+            <div class="btn num" data-key="53">5</div>
+            <div class="btn num" data-key="54">6</div>
+            <div class="btn symbol minus" data-key="45">-</div>
+            <div class="btn num" data-key="49">1</div>
+            <div class="btn num" data-key="50">2</div>
+            <div class="btn num" data-key="51">3</div>
+            <div class="btn symbol plus" data-key="43">+</div>
+            <!-- <div class="btn"><div class="inner">+/-</div></div> -->
+            <div class="btn zero num" data-key="48">0</div>
+            <div class="btn decimal" data-key="46">.</div>
+            <div class="btn equal">=</div>
         </div>
     </div>
 
