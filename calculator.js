@@ -66,9 +66,12 @@ num.forEach((num) => {
 // This event listener is for when the '.' is pressed. It allows the user to use decimals when calculating. The user can only press it one at a 
 // time, meaning we can't have two dots lined up like this e.g  '..'
 decimal.addEventListener('click', e => {
-    str += e.target.textContent;   // when the dot is pressed it will also be saved inside this variable
-    display(e);    // the dot will be displayed
-}, {once: true});  // This is how we make sure the dot is only pressed once at a time
+    if(!/\.{1,}/.test(str)) {
+        str += e.target.textContent;   // when the dot is pressed it will also be saved inside this variable
+        display(e);    // the dot will be displayed
+    }
+    
+});  // This is how we make sure the dot is only pressed once at a time
 
 
 
@@ -82,14 +85,14 @@ decimal.addEventListener('click', e => {
 symbol.forEach((symbol) => {
     symbol.addEventListener('click', (e) => {
         EQUAL_PRESSED = false;
-        console.log(str);
+        // console.log(str);
         if(str == '-') return
         else answer.textContent = '';
 
-        decimal.addEventListener('click', e => {
-            str += e.target.textContent;
-            display(e);
-        }, {once: true});
+        // decimal.addEventListener('click', e => {
+        //     str += e.target.textContent;
+        //     display(e);
+        // }, {once: true});
 
         if(e.target.textContent == '-' && str == '') {
             str += '-';
