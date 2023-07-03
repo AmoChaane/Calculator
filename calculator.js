@@ -199,6 +199,8 @@ theme.addEventListener("click", (e) => {
     container.classList.toggle("light");
     // F9F8F8
     document.querySelector(".toggle").classList.toggle("theme-light")
+    document.querySelector(".type").classList.toggle("light-sun")
+    document.querySelector(".answer").classList.toggle("light-sun")
     document.querySelector(".clear").classList.toggle("d")
     document.querySelector(".delete").classList.toggle("d")
     document.querySelector(".equal").classList.toggle("light-symbol")
