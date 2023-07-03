@@ -22,10 +22,10 @@ let obj = {
     b: 0
 }
 
-answer.addEventListener("scroll", (event) => {
-    console.log(event);
-    answer.scrollLeft = answer.scrollWidth;
-})
+// answer.addEventListener("scroll", (event) => {
+//     console.log(event);
+//     answer.scrollLeft = answer.scrollWidth;
+// })
 
 
 
