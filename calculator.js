@@ -13,6 +13,7 @@ const clear = document.querySelector('.clear');
 const decimal = document.querySelector('.decimal');
 const lightMode = document.querySelector('.sun');
 const darkMode = document.querySelector('.moon');
+const theme = document.querySelector('.theme');
 let EQUAL_PRESSED = false;
 let str = '';  // everytime a number is pressed, it will be saved inside this string 
 let sym = '';  // Everytime an operator is pressed, it will be saved inside this variable
@@ -21,6 +22,9 @@ let obj = {
     a: 0,   
     b: 0
 }
+
+
+
 
 // answer.addEventListener("scroll", (event) => {
 //     console.log(event);
@@ -184,9 +188,27 @@ del.addEventListener('click', e => {
 })
 
 
-lightMode.addEventListener("click", () => {
-    loght
+theme.addEventListener("click", (e) => {
+    lightMode.classList.toggle("light-theme-btn");
+    darkMode.classList.toggle("dark-theme-btn")
+    const screen = document.querySelector(".screen");
+    screen.classList.toggle("light");
+    const options = document.querySelector(".options")
+    options.classList.toggle("light-options")
+    const container = document.querySelector(".container")
+    container.classList.toggle("light");
+    // F9F8F8
+    document.querySelector(".toggle").classList.toggle("theme-light")
+    document.querySelector(".clear").classList.toggle("d")
+    document.querySelector(".delete").classList.toggle("d")
+    document.querySelector(".equal").classList.toggle("light-symbol")
+    document.querySelectorAll(".btn").forEach(i => i.classList.toggle("btn-light"))
+    document.querySelectorAll(".symbol").forEach(i => i.classList.toggle("light-symbol"))
 }) 
+
+// lightMode.addEventListener("click", (e) => {
+//     darkMode.style.color = "#F9F8F8";
+// }) 
 
 
 
